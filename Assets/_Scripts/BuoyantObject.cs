@@ -159,7 +159,7 @@ public class BuoyantObject : MonoBehaviour
             "\nPercant to Decelerate" + (decelerationFactor * decelerationAmount) +
             "\nVelocity to Subtract: " + (this.rigidbody.velocity.magnitude * (decelerationAmount * decelerationFactor)));
             */
-        Debug.LogError("Before: " + this.rigidbody.velocity.magnitude + "\nAfter: " + newVelocity);
+        //Debug.LogError("Before: " + this.rigidbody.velocity.magnitude + "\nAfter: " + newVelocity);
 
         this.rigidbody.velocity = this.rigidbody.velocity.normalized * newVelocity;        
     }
