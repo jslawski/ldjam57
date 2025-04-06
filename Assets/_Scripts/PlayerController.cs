@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +28,8 @@ public class PlayerController : MonoBehaviour
     private AnimationCurve _dragCurve;
 
     private float _maxDrag = 5.0f;
-    
+
+
     private void Awake()
     {
         this._buoyantObject = GetComponent<BuoyantObject>();
@@ -43,7 +45,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         this.ProcessInputs();
-        //this.UpdateDrag();
     }
 
     private void UpdateDrag()
@@ -51,21 +52,6 @@ public class PlayerController : MonoBehaviour
         float tValue = this._buoyantObject.GetSubmergePercentage();
     
         this._buoyantObject.buoyantRigidbody.drag = this._dragCurve.Evaluate(tValue) * this._maxDrag;
-
-        /*
-        if (this._buoyantObject.IsFullySubmerged() == true)
-        {
-            this._buoyantObject.buoyantRigidbody.drag = this._fullySubmergedDrag;
-        }
-        else if (this._buoyantObject.IsSubmerged() == true)
-        {
-            this._buoyantObject.buoyantRigidbody.drag = this._fullySubmergedDrag;
-        }
-        else
-        {
-            this._buoyantObject.buoyantRigidbody.drag = this._unsubmergedDrag;
-        }
-        */
     }
 
     private void ProcessInputs()
@@ -102,7 +88,7 @@ public class PlayerController : MonoBehaviour
     {
         if (this._buoyantObject.IsFullySubmerged() == false)
         {
-            this._buoyantObject.buoyantRigidbody.AddForce(this._moveDirection * this._unsubmergedAcceleration, ForceMode.Acceleration);
+            this._buoyantObject.buoyantRigidbody.AddForce(this._moveDirection * this._unsubmergedAcceleration, ForceMode.Acceleration);           
         }
         else
         {
@@ -141,6 +127,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Mathf.Abs(currentRigidbody.velocity.x) > PlayerController._maxUnsubmergedVelocity.x)
             {
+              
                 if (currentVelocity.x > 0)
                 {
                     currentRigidbody.velocity = new Vector3(PlayerController._maxUnsubmergedVelocity.x, currentVelocity.y, 0.0f);
@@ -149,7 +136,6 @@ public class PlayerController : MonoBehaviour
                 {
                     currentRigidbody.velocity = new Vector3(-PlayerController._maxUnsubmergedVelocity.x, currentVelocity.y, 0.0f);
                 }
-
             }
         }        
     }
@@ -200,7 +186,6 @@ public class PlayerController : MonoBehaviour
                 {
                     currentRigidbody.velocity = new Vector3(currentVelocity.x, -PlayerController._maxUnsubmergedVelocity.y, 0.0f);
                 }
-
             }
         }
     }

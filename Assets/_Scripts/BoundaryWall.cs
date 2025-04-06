@@ -16,7 +16,6 @@ public class BoundaryWall : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Debug.LogError("Pushing!");
             other.GetComponent<Rigidbody>().AddForce(new Vector3(this._pushDirection * this._horizontalAcceleration, this._verticalAcceleration, 0.0f), ForceMode.Acceleration);
         }
     }

@@ -29,6 +29,9 @@ public class BuoyantObject : MonoBehaviour
     private Vector3 _lightGravity = new Vector3(0.0f, -25.0f, 0.0f);
     private Vector3 _heavyGravity = new Vector3(0.0f, -50.0f, 0.0f);
 
+    private bool _wasSubmergedLastFrame = false;
+    public bool breachedThisFrame = false;
+
     private void Awake()
     {
         this._transform = GetComponent<Transform>();
@@ -50,6 +53,21 @@ public class BuoyantObject : MonoBehaviour
         else
         {
             Physics.gravity = this._lightGravity;
+        }
+
+        if (this.breachedThisFrame == true)
+        {
+            this.breachedThisFrame = false;
+        }
+
+        if (this._wasSubmergedLastFrame == true && this.IsSubmerged() == false)
+        {
+            this.breachedThisFrame = true;
+            this._wasSubmergedLastFrame = false;            
+        }
+        else
+        {
+            this._wasSubmergedLastFrame = this.IsSubmerged();
         }
     }
 
