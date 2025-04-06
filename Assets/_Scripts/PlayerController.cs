@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,6 +25,14 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 _moveDirection = Vector3.zero;
 
+    //Momentum conservation
+    private Vector3 _lastSubmergedVelocity = Vector3.zero;
+    private Vector3 _maxDeceleratingVelocity = Vector3.zero;
+    private float _timeToDecelerate = 0.1f;
+    private Coroutine _decelerationCoroutine = null;
+    private int _currentBreachFrames = 0;
+    private int _breachBuffer = 2;
+
     [SerializeField]
     private AnimationCurve _dragCurve;
 
@@ -33,12 +42,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         this._buoyantObject = GetComponent<BuoyantObject>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        this._maxDeceleratingVelocity = PlayerController._maxUnsubmergedVelocity;
     }
 
     // Update is called once per frame
@@ -93,7 +97,8 @@ public class PlayerController : MonoBehaviour
         else
         {
             this._buoyantObject.buoyantRigidbody.AddForce(this._moveDirection * this._submergedAcceleration, ForceMode.Acceleration);
-        }        
+            this._lastSubmergedVelocity = this._buoyantObject.buoyantRigidbody.velocity;
+        }
 
         this.CapMaxVelocity();
     }
@@ -107,8 +112,8 @@ public class PlayerController : MonoBehaviour
     private void CapMaxVelocityX()
     {
         Rigidbody currentRigidbody = this._buoyantObject.buoyantRigidbody;
-        Vector3 currentVelocity = this._buoyantObject.buoyantRigidbody.velocity;  
-    
+        Vector3 currentVelocity = this._buoyantObject.buoyantRigidbody.velocity;
+
         if (this._buoyantObject.IsFullySubmerged() == true)
         {
             if (Mathf.Abs(currentVelocity.x) > this._maxSubmergedVelocity.x)
@@ -123,18 +128,34 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        else if (this._buoyantObject.IsSubmerged() && this._buoyantObject.wasFullySubmergedLastFrame == true)
+        {
+            if (this._currentBreachFrames > 0)
+            {
+                this._currentBreachFrames = 0;
+            }
+        }
         else
         {
-            if (Mathf.Abs(currentRigidbody.velocity.x) > PlayerController._maxUnsubmergedVelocity.x)
+            if (Mathf.Abs(currentRigidbody.velocity.x) > this._maxDeceleratingVelocity.x)
             {
-              
-                if (currentVelocity.x > 0)
+                if (this._buoyantObject.breachedThisFrame == true && this._decelerationCoroutine == null)
                 {
-                    currentRigidbody.velocity = new Vector3(PlayerController._maxUnsubmergedVelocity.x, currentVelocity.y, 0.0f);
+                    this._maxDeceleratingVelocity = new Vector3(Mathf.Abs(this._lastSubmergedVelocity.x), PlayerController._maxUnsubmergedVelocity.y, 0.0f);
+                    this._decelerationCoroutine = StartCoroutine(this.DecelerateFromBreach());
+                    this._lastSubmergedVelocity = PlayerController._maxUnsubmergedVelocity;
                 }
-                else
+
+                if (this._currentBreachFrames >= this._breachBuffer)
                 {
-                    currentRigidbody.velocity = new Vector3(-PlayerController._maxUnsubmergedVelocity.x, currentVelocity.y, 0.0f);
+                    if (currentVelocity.x > 0)
+                    {
+                        currentRigidbody.velocity = new Vector3(this._maxDeceleratingVelocity.x, currentVelocity.y, 0.0f);
+                    }
+                    else
+                    {
+                        currentRigidbody.velocity = new Vector3(-this._maxDeceleratingVelocity.x, currentVelocity.y, 0.0f);
+                    }
                 }
             }
         }        
@@ -188,5 +209,26 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator DecelerateFromBreach()
+    {
+        Rigidbody currentRigidbody = this._buoyantObject.buoyantRigidbody;
+        Vector3 currentVelocity = this._buoyantObject.buoyantRigidbody.velocity;
+
+        float decelerationPerFrame = ((this._maxDeceleratingVelocity.x - PlayerController._maxUnsubmergedVelocity.x) / this._timeToDecelerate) * Time.fixedDeltaTime;
+
+        while (this._buoyantObject.IsFullySubmerged() == false && this._maxDeceleratingVelocity.x > PlayerController._maxUnsubmergedVelocity.x)
+        {
+            this._currentBreachFrames++;
+            
+            this._maxDeceleratingVelocity = new Vector3(this._maxDeceleratingVelocity.x - decelerationPerFrame, this._maxDeceleratingVelocity.y, 0.0f);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        this._maxDeceleratingVelocity = PlayerController._maxUnsubmergedVelocity;
+        this._decelerationCoroutine = null;
+        this._currentBreachFrames = this._breachBuffer;
     }
 }

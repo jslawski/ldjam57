@@ -30,7 +30,10 @@ public class BuoyantObject : MonoBehaviour
     private Vector3 _heavyGravity = new Vector3(0.0f, -50.0f, 0.0f);
 
     private bool _wasSubmergedLastFrame = false;
+    public bool wasFullySubmergedLastFrame = false;
     public bool breachedThisFrame = false;
+
+    private float _boundsBuffer = 0.3f;
 
     private void Awake()
     {
@@ -68,6 +71,18 @@ public class BuoyantObject : MonoBehaviour
         else
         {
             this._wasSubmergedLastFrame = this.IsSubmerged();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (this.IsFullySubmerged() == true)
+        {
+            this.wasFullySubmergedLastFrame = true;
+        }
+        else
+        {
+            this.wasFullySubmergedLastFrame = this.IsFullySubmerged();
         }
     }
 
@@ -139,7 +154,7 @@ public class BuoyantObject : MonoBehaviour
                                         this._currentLiquidObjects[i].liquidCollider, this._currentLiquidObjects[i].gameObject.transform.position, this._currentLiquidObjects[i].gameObject.transform.rotation,
                                         out penetrationDirection, out penetrationDistance);
 
-            this._currentLiquidObjects[i].CalculateDisplacement(this._collider.bounds.size.x, this._collider.bounds.size.y, penetrationDirection * penetrationDistance);
+            this._currentLiquidObjects[i].CalculateDisplacement(this._collider.bounds.size.x + this._boundsBuffer, this._collider.bounds.size.y + this._boundsBuffer, penetrationDirection * penetrationDistance);
         }
     }
 
