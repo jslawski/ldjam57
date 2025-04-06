@@ -9,7 +9,7 @@ public class CameraScroll : MonoBehaviour
 
     private Transform _cameraHolderTransform;
 
-    private float _verticalViewportThreshold = 0.3f;
+    private float _verticalViewportThreshold = 0.25f;
     private float _horizontalViewportThreshold = 0.0f;
 
     private float _initialZPosition;

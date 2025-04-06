@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Material _heavyMaterial;
 
-    public static Vector3 _maxUnsubmergedVelocity = new Vector3(7.0f, 15.0f, 0.0f);
+    public static Vector3 _maxUnsubmergedVelocity = new Vector3(7.0f, 14.0f, 0.0f);
     private Vector3 _maxSubmergedVelocity = new Vector3(15.0f, 5.0f, 0.0f);
 
     public float _unsubmergedAcceleration = 5.0f;

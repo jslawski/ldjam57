@@ -7,6 +7,8 @@ public class LiquidObject : MonoBehaviour
     public float liquidDensity = 1.0f;
     public float displacementFactor = 0.0f;
 
+    public Vector3 buoyancyDirection = Vector3.up;
+
     public Collider liquidCollider;
 
     private void Awake()

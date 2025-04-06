@@ -23,13 +23,11 @@ public class BuoyantObject : MonoBehaviour
     private float _lowMass = 20f;   
     private float _highMass = 100f;
 
-    private float _surfaceTensionDecelerationFactorLight = 0.75f;
-    private float _surfaceTensionDecelerationFactorHeavy = 0.5f;
+    private float _surfaceTensionDecelerationFactorLight = 0.5f;
+    private float _surfaceTensionDecelerationFactorHeavy = 0.25f;
 
-    
-
-    private Vector3 _lightGravity = new Vector3(0.0f, -50.0f, 0.0f);
-    private Vector3 _heavyGravity = new Vector3(0.0f, -100.0f, 0.0f);
+    private Vector3 _lightGravity = new Vector3(0.0f, -25.0f, 0.0f);
+    private Vector3 _heavyGravity = new Vector3(0.0f, -50.0f, 0.0f);
 
     private void Awake()
     {
@@ -43,7 +41,7 @@ public class BuoyantObject : MonoBehaviour
     {
         this.UpdateDisplacementFactors();    
 
-        this.buoyantRigidbody.AddForce(Vector3.up * this.CalculateBuoyancyForce(), ForceMode.Force);
+        this.buoyantRigidbody.AddForce(this.GetBuoyancyDirection() * this.CalculateBuoyancyForce(), ForceMode.Force);
 
         if (this.IsSubmerged() == false && this.isHeavy == true)
         {
@@ -53,6 +51,19 @@ public class BuoyantObject : MonoBehaviour
         {
             Physics.gravity = this._lightGravity;
         }
+    }
+
+    private Vector3 GetBuoyancyDirection()
+    {
+        Vector3 totalBuoyancyDirection = Vector3.zero;
+
+        for (int i = 0; i < this._currentLiquidObjects.Count; i++)
+        {
+
+            totalBuoyancyDirection += this._currentLiquidObjects[i].buoyancyDirection;
+        }
+
+        return totalBuoyancyDirection;
     }
 
     private float CalculateBuoyancyForce()
