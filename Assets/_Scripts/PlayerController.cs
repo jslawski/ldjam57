@@ -15,14 +15,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Material _heavyMaterial;
 
-    public static Vector3 _maxUnsubmergedVelocity = new Vector3(10.0f, 30.0f, 0.0f);
-    private Vector3 _maxSubmergedVelocity = new Vector3(20.0f, 8.0f, 0.0f);
+    public static Vector3 _maxUnsubmergedVelocity = new Vector3(7.0f, 15.0f, 0.0f);
+    private Vector3 _maxSubmergedVelocity = new Vector3(15.0f, 5.0f, 0.0f);
 
     public float _unsubmergedAcceleration = 5.0f;
     public float _submergedAcceleration = 10.0f;
 
     private Vector3 _moveDirection = Vector3.zero;
 
+    [SerializeField]
+    private AnimationCurve _dragCurve;
+
+    private float _maxDrag = 5.0f;
+    
     private void Awake()
     {
         this._buoyantObject = GetComponent<BuoyantObject>();
@@ -38,6 +43,29 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         this.ProcessInputs();
+        //this.UpdateDrag();
+    }
+
+    private void UpdateDrag()
+    {
+        float tValue = this._buoyantObject.GetSubmergePercentage();
+    
+        this._buoyantObject.buoyantRigidbody.drag = this._dragCurve.Evaluate(tValue) * this._maxDrag;
+
+        /*
+        if (this._buoyantObject.IsFullySubmerged() == true)
+        {
+            this._buoyantObject.buoyantRigidbody.drag = this._fullySubmergedDrag;
+        }
+        else if (this._buoyantObject.IsSubmerged() == true)
+        {
+            this._buoyantObject.buoyantRigidbody.drag = this._fullySubmergedDrag;
+        }
+        else
+        {
+            this._buoyantObject.buoyantRigidbody.drag = this._unsubmergedDrag;
+        }
+        */
     }
 
     private void ProcessInputs()
@@ -79,8 +107,8 @@ public class PlayerController : MonoBehaviour
         else
         {
             this._buoyantObject.buoyantRigidbody.AddForce(this._moveDirection * this._submergedAcceleration, ForceMode.Acceleration);
-        }
-    
+        }        
+
         this.CapMaxVelocity();
     }
 

@@ -131,6 +131,18 @@ public class BuoyantObject : MonoBehaviour
         return (finalSubmergedValue >= 1.0f);
     }
 
+    public float GetSubmergePercentage()
+    {
+        float finalSubmergedValue = 0.0f;
+
+        for (int i = 0; i < this._currentLiquidObjects.Count; i++)
+        {
+            finalSubmergedValue += this._currentLiquidObjects[i].displacementFactor;
+        }
+
+        return finalSubmergedValue;
+    }
+
     public void ChangeToLightObject()
     {
         this._displacementSize = this._highDisplacementValue;       
