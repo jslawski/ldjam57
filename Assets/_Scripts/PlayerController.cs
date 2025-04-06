@@ -2,19 +2,12 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     private BuoyantObject _buoyantObject;
-
-    [SerializeField]
-    private MeshRenderer _renderer;
-
-    [SerializeField]
-    private Material _lightMaterial;
-    [SerializeField]
-    private Material _heavyMaterial;
 
     public static Vector3 _maxUnsubmergedVelocity = new Vector3(7.0f, 14.0f, 0.0f);
     private Vector3 _maxSubmergedVelocity = new Vector3(15.0f, 5.0f, 0.0f);
@@ -30,9 +23,21 @@ public class PlayerController : MonoBehaviour
     private float _maxDrag = 5.0f;
 
 
+    private PlayerControls _playerControls;
+
     private void Awake()
     {
         this._buoyantObject = GetComponent<BuoyantObject>();
+
+        this._playerControls = new PlayerControls();
+
+        this._playerControls.PlayerMap.Left.performed += this.MoveLeft;
+        this._playerControls.PlayerMap.Left.canceled += this.StopDirection;
+        this._playerControls.PlayerMap.Right.performed += this.MoveRight;
+        this._playerControls.PlayerMap.Right.canceled += this.StopDirection;
+        this._playerControls.PlayerMap.Down.performed += this.GoHeavy;
+        this._playerControls.PlayerMap.Down.canceled += this.GoLight;
+        this._playerControls.PlayerMap.Restart.performed += this.RestartLevel;
     }
 
     // Start is called before the first frame update
@@ -41,10 +46,20 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    private void OnEnable()
+    {
+        this._playerControls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        this._playerControls.Disable();
+    }
+
     // Update is called once per frame
     void Update()
     {
-        this.ProcessInputs();
+        //this.ProcessInputs();
     }
 
     private void UpdateDrag()
@@ -54,6 +69,7 @@ public class PlayerController : MonoBehaviour
         this._buoyantObject.buoyantRigidbody.drag = this._dragCurve.Evaluate(tValue) * this._maxDrag;
     }
 
+    /*
     private void ProcessInputs()
     {
         this._moveDirection = Vector3.zero;
@@ -74,16 +90,14 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
         {
-            this._renderer.material = this._heavyMaterial;
             this._buoyantObject.ChangeToHeavyObject();
         }
         else
         {
-            this._renderer.material = this._lightMaterial;
             this._buoyantObject.ChangeToLightObject();
         }
     }
-
+    */
     private void FixedUpdate()
     {
         if (this._buoyantObject.IsFullySubmerged() == false)
@@ -188,5 +202,38 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void MoveLeft(InputAction.CallbackContext context)
+    {
+        this._moveDirection = Vector3.left;
+    }
+
+    private void MoveRight(InputAction.CallbackContext context)
+    {
+        this._moveDirection = Vector3.right;
+    }
+
+    private void StopDirection(InputAction.CallbackContext context)
+    {
+        if (this._playerControls.PlayerMap.Left.inProgress == false && this._playerControls.PlayerMap.Right.inProgress == false)
+        {
+            this._moveDirection = Vector3.zero;
+        }
+    }
+
+    private void GoHeavy(InputAction.CallbackContext context)
+    {
+        this._buoyantObject.ChangeToHeavyObject();
+    }
+
+    private void GoLight(InputAction.CallbackContext context)
+    {
+        this._buoyantObject.ChangeToLightObject();
+    }
+
+    private void RestartLevel(InputAction.CallbackContext context)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

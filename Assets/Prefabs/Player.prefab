@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 5558299681947629466}
   - component: {fileID: 8893775819088527596}
   - component: {fileID: 3291462873948805443}
+  - component: {fileID: 8379808095510055272}
   - component: {fileID: 1345171618233048236}
   - component: {fileID: 8240073332014026944}
   - component: {fileID: 8011787897050064209}
@@ -135,9 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e410b0864020d245b1c64da010f5c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderer: {fileID: 8240073332014026944}
-  _lightMaterial: {fileID: 2100000, guid: a110a814864b3704f94091eacfb9f2de, type: 2}
-  _heavyMaterial: {fileID: 2100000, guid: fa660e75711239341a3703ff86927ffe, type: 2}
   _unsubmergedAcceleration: 50
   _submergedAcceleration: 50
   _dragCurve:
@@ -203,6 +201,37 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   breachedThisFrame: 0
+--- !u!114 &8379808095510055272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9026054087733195582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: ef0bfb704d9a67d47bb54c07aee87c92,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: PlayerMap
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!33 &1345171618233048236
 MeshFilter:
   m_ObjectHideFlags: 0
