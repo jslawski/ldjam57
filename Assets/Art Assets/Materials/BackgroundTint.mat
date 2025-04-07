@@ -62,17 +62,17 @@ Material:
     - _CastShadows: 1
     - _Cull: 0
     - _DstBlend: 0
-    - _Height: 327.6
+    - _Height: 559.3
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Smoothness: 254
+    - _Smoothness: 539.7
     - _SrcBlend: 1
     - _Surface: 0
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _Color: {r: 0.02180491, g: 0.082111046, b: 0.09433961, a: 1}
+    - _Color: {r: 0.023718402, g: 0.08334943, b: 0.122641504, a: 1}
     - _Color2: {r: 0, g: 0.007843138, b: 0.01886791, a: 1}
     - _Vector2: {r: 0.05, g: 2.41, b: 0, a: 0}
   m_BuildTextureStacks: []
