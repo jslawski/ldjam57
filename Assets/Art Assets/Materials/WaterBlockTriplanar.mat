@@ -124,7 +124,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Blend: 0
+    - _Blend: 2
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
     - _CastShadows: 0
@@ -142,7 +142,7 @@ Material:
     - _Displacement_Speed: 0.48
     - _Distortion_Scale: 1
     - _Distortion_Speed: 0.2
-    - _DstBlend: 10
+    - _DstBlend: 1
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _Float: 1
