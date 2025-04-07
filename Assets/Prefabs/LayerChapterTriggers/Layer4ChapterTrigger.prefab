@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animationTriggerName: Layer4
   _bgmIndex: 3
+  _audioClip: {fileID: 8300000, guid: 5eb3b972497c6914583f912ca132d4c7, type: 3}
 --- !u!65 &3235593138992255557
 BoxCollider:
   m_ObjectHideFlags: 0

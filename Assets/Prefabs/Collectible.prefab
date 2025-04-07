@@ -122,6 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collectParticle: {fileID: 6157341012460587997, guid: 99af6adda0421474fb28685d1c97d626,
     type: 3}
+  _audioClip: {fileID: 8300000, guid: 6392c4488d018584cb0c0ad7a00d523e, type: 3}
 --- !u!1001 &511193223287366213
 PrefabInstance:
   m_ObjectHideFlags: 0
