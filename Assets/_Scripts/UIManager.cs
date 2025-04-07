@@ -50,9 +50,6 @@ public class UIManager : MonoBehaviour
         timerValues.Add(secondsValue);
 
         int millisecondsValue = (int)((rawTime - (minutesValue * 60) - secondsValue) * 100);
-        
-        //Round to nearest Tenth
-        //int millisecondsRounded = Mathf.FloorToInt((float)millisecondsValue / 10.0f);
 
         timerValues.Add(millisecondsValue);
 
@@ -65,8 +62,7 @@ public class UIManager : MonoBehaviour
 
         string minutesValue = (timerValues[0] > 9) ? timerValues[0].ToString() : "0" + timerValues[0].ToString();
         string secondsValue = (timerValues[1] > 9) ? timerValues[1].ToString() : "0" + timerValues[1].ToString();
-        //string millisecondsValue = (timerValues[2] > 9) ? timerValues[2].ToString() : "0" + timerValues[2].ToString();
-        string millisecondsValue = timerValues[2].ToString(); 
+        string millisecondsValue = (timerValues[2] > 9) ? timerValues[2].ToString() : "0" + timerValues[2].ToString();        
 
         return minutesValue + ":" + secondsValue + ":" + millisecondsValue;
     }
