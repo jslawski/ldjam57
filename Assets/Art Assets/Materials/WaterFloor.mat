@@ -166,7 +166,7 @@ Material:
     - _SrcBlend: 5
     - _SrcBlendAlpha: 1
     - _Surface: 1
-    - _Water_Depth: 3518.51
+    - _Water_Depth: 100
     - _Water_Distortion_Scale: 10
     - _Water_Distortion_Speed: 0.1
     - _Water_Noise_Contrast: 1
