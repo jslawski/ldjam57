@@ -199,6 +199,7 @@ public class PlayerController : MonoBehaviour
         if (this._timeSinceLastBuoyChange >= this._buoyChangeDelay)
         {
             this._setHeavy = true;
+
         }
         else if (this._delayCoroutine == null)
         {
@@ -263,6 +264,8 @@ public class PlayerController : MonoBehaviour
     {
         this._buoyantObject.ChangeToHeavyObject();
         this._timeSinceLastBuoyChange = 0.0f;
+
+        ScoreManager.IncrementTimesDucked();
     }
 
     private void ExecuteLight()
