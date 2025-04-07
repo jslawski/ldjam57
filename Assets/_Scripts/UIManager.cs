@@ -3,18 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening.Core.Easing;
+using System;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager instance;
+
     [SerializeField]
     private TextMeshProUGUI _timerText;
     [SerializeField]
     private TextMeshProUGUI _collectiblesText;
 
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private GameObject _endScreen;
+
+    [SerializeField]
+    private TextMeshProUGUI _endScreenTimer;
+    [SerializeField]
+    private TextMeshProUGUI _endScreenCollectibles;
+    [SerializeField]
+    private TextMeshProUGUI _endScreenTimesDucked;
+
+    private void Awake()
     {
-        
+        if (instance == null)
+        {
+            instance = this;    
+        }
     }
 
     private string GetFormattedTime()
@@ -22,29 +37,36 @@ public class UIManager : MonoBehaviour
         return "";
     }
 
-    public List<int> GetTimerValues()
+    private static List<int> GetTimerValues(float rawTime)
     {
-        List<int> timerValues = new List<int>();
+        //double rawDecimal = Math.Round(rawTime, 2);
+        
+        List<int> timerValues = new List<int>();        
 
-        int minutesValue = Mathf.FloorToInt(ScoreManager.timeElapsed / 60f);
+        int minutesValue = Mathf.FloorToInt(rawTime / 60f);
         timerValues.Add(minutesValue);
 
-        int secondsValue = Mathf.FloorToInt(ScoreManager.timeElapsed - (minutesValue * 60));
+        int secondsValue = Mathf.FloorToInt(rawTime - (minutesValue * 60));
         timerValues.Add(secondsValue);
 
-        int millisecondsValue = (int)((ScoreManager.timeElapsed - (minutesValue * 60) - secondsValue) * 100);
+        int millisecondsValue = (int)((rawTime - (minutesValue * 60) - secondsValue) * 100);
+        
+        //Round to nearest Tenth
+        //int millisecondsRounded = Mathf.FloorToInt((float)millisecondsValue / 10.0f);
+
         timerValues.Add(millisecondsValue);
 
         return timerValues;
     }
 
-    public string GetTimerString()
+    public static string GetTimerString(float rawTime)
     {
-        List<int> timerValues = this.GetTimerValues();
+        List<int> timerValues = UIManager.GetTimerValues(rawTime);
 
         string minutesValue = (timerValues[0] > 9) ? timerValues[0].ToString() : "0" + timerValues[0].ToString();
         string secondsValue = (timerValues[1] > 9) ? timerValues[1].ToString() : "0" + timerValues[1].ToString();
-        string millisecondsValue = (timerValues[2] > 9) ? timerValues[2].ToString() : "0" + timerValues[2].ToString();
+        //string millisecondsValue = (timerValues[2] > 9) ? timerValues[2].ToString() : "0" + timerValues[2].ToString();
+        string millisecondsValue = timerValues[2].ToString(); 
 
         return minutesValue + ":" + secondsValue + ":" + millisecondsValue;
     }
@@ -52,12 +74,26 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this._timerText.text = this.GetTimerString();
+        this._timerText.text = UIManager.GetTimerString(ScoreManager.timeElapsed);
         this._collectiblesText.text = ScoreManager.collectiblesGrabbed.ToString();
+    }    
+
+    public void DisplayEndScreen()
+    {
+        this._endScreen.SetActive(true);
+
+        float revisedTime = (int)(ScoreManager.timeElapsed * 100) / 100.0f;
+        string timerString = UIManager.GetTimerString(revisedTime);
+
+        this._timerText.text = timerString;
+
+        this._endScreenTimer.text = timerString;
+        this._endScreenCollectibles.text = ScoreManager.collectiblesGrabbed.ToString();
+        this._endScreenTimesDucked.text = ScoreManager.totalTimesDucked.ToString();
     }
 
-    private void FixedUpdate()
+    public void HideEndScreen()
     {
-        ScoreManager.IncrementTime();
+        this._endScreen.SetActive(false);
     }
 }

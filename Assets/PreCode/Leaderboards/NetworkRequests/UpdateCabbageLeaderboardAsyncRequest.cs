@@ -3,13 +3,13 @@ using CabbageNetwork;
 
 public class UpdateCabbageLeaderboardAsyncRequest : AsyncRequest
 {
-    public UpdateCabbageLeaderboardAsyncRequest(string username, string value, string tableName, NetworkRequestSuccess successCallback = null, NetworkRequestFailure failureCallback = null)
+    public UpdateCabbageLeaderboardAsyncRequest(string username, string value1, string tableName, NetworkRequestSuccess successCallback = null, NetworkRequestFailure failureCallback = null)
     {
-        string url = ServerSecrets.ServerName + "d2jam/leaderboard/updateCabbageLeaderboard.php";
+        string url = ServerSecrets.ServerName + "ldjam57/leaderboard/updateCabbageLeaderboard.php";
 
         this.form = new WWWForm();
         this.form.AddField("username", username);
-        this.form.AddField("score", value);
+        this.form.AddField("score", value1);
         this.form.AddField("tableName", tableName);
 
         this.SetupRequest(url, successCallback, failureCallback);

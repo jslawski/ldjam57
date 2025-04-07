@@ -32,10 +32,7 @@ public class LeaderboardManager : MonoBehaviour
     private GameObject leaderboardObject;
 
     [SerializeField]
-    private GameObject leaderboardCanvas;
-
-    [SerializeField]
-    private Sprite[] leaderboardEntryBackgrounds;
+    private Sprite[] leaderboardEntryBackgrounds;    
 
     public void Awake()
     {
@@ -94,12 +91,6 @@ public class LeaderboardManager : MonoBehaviour
         this.leaderboardObject.SetActive(false);
     }
 
-    public void DisplayLeaderboard()
-    {
-        this.leaderboardCanvas.SetActive(true);
-        this.RefreshLeaderboard("popsicle");
-    }
-
     public void RefreshLeaderboard(string tableName)
     {
         this.RequestLeaderboard(tableName);
@@ -144,6 +135,7 @@ public class LeaderboardManager : MonoBehaviour
     private void UpdateLeaderboardSuccess(string data)
     {
         this.readyToProcessUpdate = true;
+        this.RefreshLeaderboard("leaderboard");
     }
 
     private void UpdateLeaderboardFailure()
@@ -205,10 +197,5 @@ public class LeaderboardManager : MonoBehaviour
     public bool IsTopPlayer(string username)
     {
         return (this.GetTopPlayer().username == username);
-    }
-
-    public void OnCloseButtonClicked()
-    {
-        this.leaderboardCanvas.SetActive(false);
     }
 }

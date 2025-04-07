@@ -10,7 +10,6 @@ public static class ScoreManager
     public static int collectiblesGrabbed = 0;
     public static int totalTimesDucked = 0;
 
-
     public static void ResetScores()
     {
         ScoreManager.timeElapsed = 0.0f;
@@ -31,5 +30,12 @@ public static class ScoreManager
     public static void IncrementCollectiblesGrabbed()
     {
         ScoreManager.collectiblesGrabbed++;
+    }
+
+    public static void SubmitScore()
+    {
+        string username = PlayerPrefs.GetString("username", "");
+
+        LeaderboardManager.instance.QueueLeaderboardUpdate(username, (int)(ScoreManager.timeElapsed * 100), "leaderboard");
     }
 }

@@ -17,16 +17,16 @@ public class LeaderboardEntryObject : MonoBehaviour
         }
     }
 
-    public void UpdateEntry(string username, float score, float placement)
+    public void UpdateEntry(string username, float value, float placement)
     {
         this.gameObject.SetActive(true);
 
-        if (username == "" || score == 0)
+        if (username == "" || value == 0)
         {
             return;
-        }
+        }       
 
         this.username.text = username;
-        this.scoreText.text = Mathf.RoundToInt(score).ToString();
+        this.scoreText.text = UIManager.GetTimerString(value / 100.0f);
     }
 }

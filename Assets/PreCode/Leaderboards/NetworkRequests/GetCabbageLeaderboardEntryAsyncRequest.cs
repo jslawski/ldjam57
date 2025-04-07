@@ -5,7 +5,7 @@ public class GetCabbageLeaderboardEntryAsyncRequest : AsyncRequest
 {
     public GetCabbageLeaderboardEntryAsyncRequest(string chatterName, string tableName, NetworkRequestSuccess successCallback = null, NetworkRequestFailure failureCallback = null)
     {
-        string url = ServerSecrets.ServerName + "d2jam/leaderboard/getCabbageLeaderboardEntry.php";
+        string url = ServerSecrets.ServerName + "ldjam57/leaderboard/getCabbageLeaderboardEntry.php";
 
         this.form = new WWWForm();
         this.form.AddField("username", chatterName);
