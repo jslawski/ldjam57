@@ -32,6 +32,9 @@ public class BuoyantObject : MonoBehaviour
     private bool _wasSubmergedLastFrame = false;
     public bool breachedThisFrame = false;
 
+    [SerializeField]
+    private GameObject _splashParticle;
+
     private void Awake()
     {
         this._transform = GetComponent<Transform>();
@@ -108,6 +111,10 @@ public class BuoyantObject : MonoBehaviour
         this._currentLiquidObjects.Add(other.gameObject.GetComponent<LiquidObject>());
 
         this.ApplyImpactDecelerationForce();
+
+        Vector3 spawnPoint = other.ClosestPoint(this._transform.position);
+
+        this.SpawnEnterSplashParticle(spawnPoint);
     }
 
     private void OnTriggerExit(Collider other)
@@ -118,6 +125,10 @@ public class BuoyantObject : MonoBehaviour
         }
 
         this._currentLiquidObjects.Remove(other.gameObject.GetComponent<LiquidObject>());
+
+        Vector3 spawnPoint = other.ClosestPoint(this._transform.position);
+
+        this.SpawnExitSplashParticle(spawnPoint);
     }
 
     private void OnTriggerStay(Collider other)
@@ -126,6 +137,18 @@ public class BuoyantObject : MonoBehaviour
         {
             return;
         }   
+    }
+
+    public void SpawnEnterSplashParticle(Vector3 spawnPoint)
+    {
+        GameObject splashInstance = Instantiate(this._splashParticle, spawnPoint, new Quaternion());
+        splashInstance.transform.up = this.buoyantRigidbody.velocity.normalized;
+    }
+
+    public void SpawnExitSplashParticle(Vector3 spawnPoint)
+    {
+        GameObject splashInstance = Instantiate(this._splashParticle, spawnPoint, new Quaternion());
+        splashInstance.transform.up = -this.buoyantRigidbody.velocity.normalized;
     }
 
     private void UpdateDisplacementFactors()

@@ -178,6 +178,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   breachedThisFrame: 0
+  _splashParticle: {fileID: 7421425168132894508, guid: 70eadd23c60745544a280d5a9ad176a7,
+    type: 3}
 --- !u!114 &3038031770388376197
 MonoBehaviour:
   m_ObjectHideFlags: 0
