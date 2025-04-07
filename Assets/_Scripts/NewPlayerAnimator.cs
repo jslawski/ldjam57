@@ -50,7 +50,7 @@ public class NewPlayerAnimator : MonoBehaviour
 
             }
         }
-        else if (this._playerController._buoyantObject.IsSubmerged() == true)
+        else if (this._playerController._buoyantObject.IsSubmerged() == true && this._playerController._buoyantObject.isHeavy == false)
         {
             this.ClearFallBools();
             this.ClearSwimBools();
@@ -66,21 +66,20 @@ public class NewPlayerAnimator : MonoBehaviour
 
         if (this._playerController._moveDirection == Vector3.left)
         {
-            this._spriteRenderer.flipX = true;
+            this._spriteRenderer.flipX = false;
         }
         else if (this._playerController._moveDirection == Vector3.right)
         {
-            this._spriteRenderer.flipX = false;
+            this._spriteRenderer.flipX = true;
         }
         else if (this._lastMoveVector == Vector3.left)
         {
-            this._spriteRenderer.flipX = true;
+            this._spriteRenderer.flipX = false;
         }
         else if (this._lastMoveVector == Vector3.right)
         {
-            this._spriteRenderer.flipX = false;
+            this._spriteRenderer.flipX = true;
         }
-
     }
 
     private void LateUpdate()

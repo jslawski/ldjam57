@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Stephens Waterpark.unity
     guid: e6c359f2aed38734ba10f65802bcc582
   - enabled: 1
+    path: Assets/Scenes/MainScene.unity
+    guid: 91c1d246bb501a24db8e0106184e08b0
+  - enabled: 1
     path: Assets/Scenes/JaredScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects: {}
