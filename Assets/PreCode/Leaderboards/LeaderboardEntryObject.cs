@@ -27,6 +27,13 @@ public class LeaderboardEntryObject : MonoBehaviour
         }       
 
         this.username.text = username;
-        this.scoreText.text = UIManager.GetTimerString(value / 100.0f);
+        if (value < 99999999)
+        {
+            this.scoreText.text = UIManager.GetTimerString(value / 100.0f);
+        }
+        else
+        {
+            this.scoreText.text = "--";
+        }
     }
 }

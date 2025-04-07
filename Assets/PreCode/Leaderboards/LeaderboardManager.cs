@@ -227,7 +227,7 @@ public class LeaderboardManager : MonoBehaviour
 
         LeaderboardEntryData leaderboardEntry = JsonUtility.FromJson<LeaderboardEntryData>(data);
 
-        if (leaderboardEntry.value >= 9999)
+        if (leaderboardEntry.value >= 99999998)
         {
             this._pbPlacement.text = "--";
             this._pbScore.text = "--";
