@@ -53,8 +53,8 @@ public class NewPlayerAnimator : MonoBehaviour
         else if (this._playerController._buoyantObject.IsSubmerged() == true && this._playerController._buoyantObject.isHeavy == false)
         {
             this.ClearFallBools();
-            this.ClearSwimBools();
-            this.SetFloatAnimation();
+            this.ClearSwimBools();           
+            this.SetFloatAnimation();             
         }
 
         if (this._animator.GetBool("PlayerDeployBuoy") == true || this._animator.GetBool("PlayerRetractBuoy") == true)
@@ -131,11 +131,13 @@ public class NewPlayerAnimator : MonoBehaviour
     private void SetDeployBuoyAnimation(InputAction.CallbackContext context)
     {
         this._animator.SetBool("PlayerDeployBuoy", true);
+        this._animator.SetBool("PlayerRetractBuoy", false);
     }
 
     private void SetRetractBuoyAnimation(InputAction.CallbackContext context)
     {
         this._animator.SetBool("PlayerRetractBuoy", true);
+        this._animator.SetBool("PlayerDeployBuoy", false);
     }
 
     public void ClearBool(string boolName)
