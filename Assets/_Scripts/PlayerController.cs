@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
         this._playerControls.PlayerMap.Down.performed += this.GoHeavy;
         this._playerControls.PlayerMap.Down.canceled += this.GoLight;
         this._playerControls.PlayerMap.Restart.performed += this.RestartLevel;
+        this._playerControls.PlayerMap.ReturnToMenu.performed += this.ReturnToMenu;
     }
 
     private void OnEnable()
@@ -258,6 +259,11 @@ public class PlayerController : MonoBehaviour
         }
 
         this._delayCoroutine = null;
+    }
+
+    private void ReturnToMenu(InputAction.CallbackContext context)
+    {
+        SceneLoader.instance.LoadScene("MainMenu");
     }
 
     private void ExecuteHeavy()

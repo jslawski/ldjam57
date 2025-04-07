@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class LeaderboardUpdate
 {
@@ -32,7 +33,16 @@ public class LeaderboardManager : MonoBehaviour
     private GameObject leaderboardObject;
 
     [SerializeField]
-    private Sprite[] leaderboardEntryBackgrounds;    
+    private Sprite[] leaderboardEntryBackgrounds;
+
+    [SerializeField]
+    private TextMeshProUGUI _pbPlacement;
+
+    [SerializeField]
+    private TextMeshProUGUI _pbUsername;
+
+    [SerializeField]
+    private TextMeshProUGUI _pbScore;
 
     public void Awake()
     {
@@ -94,6 +104,7 @@ public class LeaderboardManager : MonoBehaviour
     public void RefreshLeaderboard(string tableName)
     {
         this.RequestLeaderboard(tableName);
+        this.RefreshLatestHighScoreValues();
     }
 
     #region Get Leaderboard
@@ -124,7 +135,7 @@ public class LeaderboardManager : MonoBehaviour
         Debug.LogError("Error: Unable to get leaderboard");
     }
     #endregion
-
+    
     #region UpdateLeaderboard
     private void UpdateLeaderboard(LeaderboardUpdate updateValues)
     {
@@ -197,5 +208,44 @@ public class LeaderboardManager : MonoBehaviour
     public bool IsTopPlayer(string username)
     {
         return (this.GetTopPlayer().username == username);
+    }
+
+    public void RefreshLatestHighScoreValues()
+    {
+        string playerName = PlayerPrefs.GetString("username", "");
+        GetCabbageLeaderboardEntryAsyncRequest request = new GetCabbageLeaderboardEntryAsyncRequest(playerName, "leaderboard", this.GetDataSuccess, this.GetDataFailure);
+        request.Send();
+    }
+
+    private void GetDataSuccess(string data)
+    {
+        //Empty leaderboard, return
+        if (data == "[]")
+        {
+            return;
+        }
+
+        LeaderboardEntryData leaderboardEntry = JsonUtility.FromJson<LeaderboardEntryData>(data);
+
+        if (leaderboardEntry.value >= 9999)
+        {
+            this._pbPlacement.text = "--";
+            this._pbScore.text = "--";
+        }
+        else
+        {
+            this._pbPlacement.text = leaderboardEntry.placement.ToString();
+            this._pbScore.text = UIManager.GetTimerString(leaderboardEntry.value / 100.0f);
+        }
+
+        this._pbUsername.text = leaderboardEntry.username;
+    }
+
+    private void GetDataFailure()
+    {
+        this._pbPlacement.text = "--";
+        this._pbScore.text = "--";
+
+        this._pbUsername.text = PlayerPrefs.GetString("username", "--");
     }
 }

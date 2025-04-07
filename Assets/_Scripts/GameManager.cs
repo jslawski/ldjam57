@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
     {
         this.gameInProgress = true;
         ScoreManager.ResetScores();
-        PlayerPrefs.SetString("username", "ColeSlawski");
     }
 
     public void StartGame()

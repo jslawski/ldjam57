@@ -2112,6 +2112,9 @@ MonoBehaviour:
     entries: []
   leaderboardObject: {fileID: 819347119}
   leaderboardEntryBackgrounds: []
+  _pbPlacement: {fileID: 819347121}
+  _pbUsername: {fileID: 819347120}
+  _pbScore: {fileID: 819347118}
 --- !u!1 &520865351
 GameObject:
   m_ObjectHideFlags: 0
@@ -2918,6 +2921,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: waterCube
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949912764894055484, guid: 540097b5c6f2699498fd00514a1a1057,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5430,12 +5438,48 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 819347116}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &819347118 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4527547027246930833, guid: ee9700547e8e54447827926e1c2e3f1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 819347116}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &819347119 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8788840530893101159, guid: ee9700547e8e54447827926e1c2e3f1f,
     type: 3}
   m_PrefabInstance: {fileID: 819347116}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &819347120 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5120594203126079733, guid: ee9700547e8e54447827926e1c2e3f1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 819347116}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &819347121 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1120474749481711999, guid: ee9700547e8e54447827926e1c2e3f1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 819347116}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &829516378
 GameObject:
   m_ObjectHideFlags: 0
@@ -6445,7 +6489,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1189674744
 MonoBehaviour:
   m_ObjectHideFlags: 0
