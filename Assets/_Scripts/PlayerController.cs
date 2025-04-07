@@ -184,6 +184,14 @@ public class PlayerController : MonoBehaviour
         {
             this._moveDirection = Vector3.zero;
         }
+        else if (this._playerControls.PlayerMap.Left.inProgress == true)
+        {
+            this._moveDirection = Vector3.left;
+        }
+        else if (this._playerControls.PlayerMap.Right.inProgress == true)
+        {
+            this._moveDirection = Vector3.right;
+        }
     }
 
     private void GoHeavy(InputAction.CallbackContext context)
