@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 5558299681947629466}
   - component: {fileID: 8893775819088527596}
   - component: {fileID: 3291462873948805443}
-  - component: {fileID: 6113955601064166138}
+  - component: {fileID: 3038031770388376197}
   - component: {fileID: 8379808095510055272}
   - component: {fileID: 8011787897050064209}
   - component: {fileID: 5040949520782319375}
@@ -135,32 +135,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e410b0864020d245b1c64da010f5c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _buoyantObject: {fileID: 0}
   _unsubmergedAcceleration: 50
   _submergedAcceleration: 50
-  _dragCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  _moveDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &3291462873948805443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +178,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   breachedThisFrame: 0
---- !u!114 &6113955601064166138
+--- !u!114 &3038031770388376197
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -209,7 +187,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9026054087733195582}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 816d48463fdf96f468dce6cf5ca02bac, type: 3}
+  m_Script: {fileID: 11500000, guid: 9da5a62fe09ba4b4bbcfdf2758710744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8379808095510055272
@@ -301,7 +279,7 @@ Animator:
   m_GameObject: {fileID: 9026054087733195582}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 32ad670ebdaa5b647b48e8d31f6d66d4, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0e716a37e4794d747a0606d23e45e11b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

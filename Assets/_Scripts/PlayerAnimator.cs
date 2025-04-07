@@ -9,6 +9,8 @@ public class PlayerAnimator : MonoBehaviour
 
     private PlayerController _playerController;
 
+    private Vector3 _lastMoveVector = Vector3.zero;
+
     private void Awake()
     {
         this._animator = GetComponent<Animator>();
@@ -53,6 +55,14 @@ public class PlayerAnimator : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        if (this._playerController._moveDirection != Vector3.zero)
+        {
+            this._lastMoveVector = this._playerController._moveDirection;
+        }
+    }
+
     private void SetFloatAnimation()
     {
         if (this._playerController._moveDirection == Vector3.left)
@@ -81,23 +91,14 @@ public class PlayerAnimator : MonoBehaviour
 
     private void SetSwimAnimation()
     {
-        if (this._playerController._moveDirection == Vector3.left)
+        if (this._playerController._moveDirection == Vector3.left || this._lastMoveVector == Vector3.left)
         {
             this._animator.SetBool("SwimLeft", true);
         }
-        else if (this._playerController._moveDirection == Vector3.right)
+        else if (this._playerController._moveDirection == Vector3.right || this._lastMoveVector == Vector3.right)
         {
             this._animator.SetBool("SwimRight", true);
         }
-        else if (this._playerController._buoyantObject.buoyantRigidbody.velocity.x < 0.0f)
-        {
-            this._animator.SetBool("SwimLeft", true);
-        }
-        else
-        {
-            this._animator.SetBool("SwimRight", true);
-        }
-
     }
 
     private void ClearSwimBools()
@@ -108,7 +109,7 @@ public class PlayerAnimator : MonoBehaviour
 
     private void SetFallAnimation()
     {
-        if (this._playerController._moveDirection == Vector3.left)
+        if (this._playerController._moveDirection == Vector3.left || this._lastMoveVector == Vector3.left)
         {
             if (this._playerController._buoyantObject.isHeavy == false)
             {
@@ -119,29 +120,7 @@ public class PlayerAnimator : MonoBehaviour
                 this._animator.SetBool("FallLeft_Heavy", true);
             }
         }
-        else if(this._playerController._moveDirection == Vector3.right)
-        {
-            if (this._playerController._buoyantObject.isHeavy == false)
-            {
-                this._animator.SetBool("FallRight_Light", true);
-            }
-            else
-            {
-                this._animator.SetBool("FallRight_Heavy", true);
-            }
-        }
-        else if (this._playerController._buoyantObject.buoyantRigidbody.velocity.x < 0.0f)
-        {
-            if (this._playerController._buoyantObject.isHeavy == false)
-            {
-                this._animator.SetBool("FallLeft_Light", true);
-            }
-            else
-            {
-                this._animator.SetBool("FallLeft_Heavy", true);
-            }
-        }
-        else
+        else if (this._playerController._moveDirection == Vector3.right || this._lastMoveVector == Vector3.right)
         {
             if (this._playerController._buoyantObject.isHeavy == false)
             {
@@ -164,19 +143,11 @@ public class PlayerAnimator : MonoBehaviour
 
     private void SetDeployBuoyAnimation(InputAction.CallbackContext context)
     {
-        if (this._playerController._moveDirection == Vector3.left)
+        if (this._playerController._moveDirection == Vector3.left || this._lastMoveVector == Vector3.left)
         {
             this._animator.SetBool("DeployBuoyLeft", true);
         }
-        else if(this._playerController._moveDirection == Vector3.right)
-        {
-            this._animator.SetBool("DeployBuoyRight", true);
-        }
-        else if (this._playerController._buoyantObject.buoyantRigidbody.velocity.x < 0.0f)
-        {
-            this._animator.SetBool("DeployBuoyLeft", true);
-        }
-        else
+        else if (this._playerController._moveDirection == Vector3.right || this._lastMoveVector == Vector3.right)
         {
             this._animator.SetBool("DeployBuoyRight", true);
         }
@@ -184,19 +155,11 @@ public class PlayerAnimator : MonoBehaviour
 
     private void SetRetractBuoyAnimation(InputAction.CallbackContext context)
     {
-        if (this._playerController._moveDirection == Vector3.left)
+        if (this._playerController._moveDirection == Vector3.left || this._lastMoveVector == Vector3.left)
         {
             this._animator.SetBool("RetractBuoyLeft", true);
         }
-        else if (this._playerController._moveDirection == Vector3.right)
-        {
-            this._animator.SetBool("RetractBuoyRight", true);
-        }
-        else if (this._playerController._buoyantObject.buoyantRigidbody.velocity.x < 0.0f)
-        {
-            this._animator.SetBool("RetractBuoyLeft", true);
-        }
-        else
+        else if (this._playerController._moveDirection == Vector3.right || this._lastMoveVector == Vector3.right)
         {
             this._animator.SetBool("RetractBuoyRight", true);
         }
