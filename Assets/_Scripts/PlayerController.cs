@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    private BuoyantObject _buoyantObject;
+    public BuoyantObject _buoyantObject;
 
     public static Vector3 _maxUnsubmergedVelocity = new Vector3(7.0f, 14.0f, 0.0f);
     private Vector3 _maxSubmergedVelocity = new Vector3(15.0f, 5.0f, 0.0f);
@@ -15,15 +15,16 @@ public class PlayerController : MonoBehaviour
     public float _unsubmergedAcceleration = 5.0f;
     public float _submergedAcceleration = 10.0f;
 
-    private Vector3 _moveDirection = Vector3.zero;
+    public Vector3 _moveDirection = Vector3.zero;
 
-    [SerializeField]
-    private AnimationCurve _dragCurve;
+    public PlayerControls _playerControls;
 
-    private float _maxDrag = 5.0f;
+    private float _timeSinceLastBuoyChange = 0.0f;
+    private float _buoyChangeDelay = 0.0f;
 
+    private Coroutine _delayCoroutine = null;
 
-    private PlayerControls _playerControls;
+    private bool _setHeavy = false;
 
     private void Awake()
     {
@@ -40,12 +41,6 @@ public class PlayerController : MonoBehaviour
         this._playerControls.PlayerMap.Restart.performed += this.RestartLevel;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     private void OnEnable()
     {
         this._playerControls.Enable();
@@ -56,50 +51,17 @@ public class PlayerController : MonoBehaviour
         this._playerControls.Disable();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //this.ProcessInputs();
-    }
-
-    private void UpdateDrag()
-    {
-        float tValue = this._buoyantObject.GetSubmergePercentage();
-    
-        this._buoyantObject.buoyantRigidbody.drag = this._dragCurve.Evaluate(tValue) * this._maxDrag;
-    }
-
-    /*
-    private void ProcessInputs()
-    {
-        this._moveDirection = Vector3.zero;
-
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
-            this._moveDirection = Vector3.left;           
-        }
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
-            this._moveDirection = Vector3.right;                  
-        }
-        
-        if (Input.GetKeyUp(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-
-        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-        {
-            this._buoyantObject.ChangeToHeavyObject();
-        }
-        else
-        {
-            this._buoyantObject.ChangeToLightObject();
-        }
-    }
-    */
     private void FixedUpdate()
     {
+        if (this._setHeavy == true && this._buoyantObject.isHeavy == false)
+        {
+            this.ExecuteHeavy();
+        }
+        else if (this._setHeavy == false && this._buoyantObject.isHeavy == true)        
+        {
+            this.ExecuteLight();
+        }
+    
         if (this._buoyantObject.IsFullySubmerged() == false)
         {
             this._buoyantObject.buoyantRigidbody.AddForce(this._moveDirection * this._unsubmergedAcceleration, ForceMode.Acceleration);           
@@ -110,6 +72,8 @@ public class PlayerController : MonoBehaviour
         }        
 
         this.CapMaxVelocity();
+
+        this._timeSinceLastBuoyChange += Time.fixedDeltaTime;
     }
 
     private void CapMaxVelocity()
@@ -224,16 +188,78 @@ public class PlayerController : MonoBehaviour
 
     private void GoHeavy(InputAction.CallbackContext context)
     {
-        this._buoyantObject.ChangeToHeavyObject();
+        if (this._timeSinceLastBuoyChange >= this._buoyChangeDelay)
+        {
+            this._setHeavy = true;
+        }
+        else if (this._delayCoroutine == null)
+        {
+            this._delayCoroutine = StartCoroutine(this.DelayHeavyCoroutine(context));
+        }
     }
 
     private void GoLight(InputAction.CallbackContext context)
     {
-        this._buoyantObject.ChangeToLightObject();
+        if (this._timeSinceLastBuoyChange >= this._buoyChangeDelay)
+        {
+            this._setHeavy = false;
+        }
+        else if (this._delayCoroutine == null)
+        {
+            this._delayCoroutine = StartCoroutine(this.DelayLightCoroutine(context));
+        }
     }
 
     private void RestartLevel(InputAction.CallbackContext context)
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private IEnumerator DelayHeavyCoroutine(InputAction.CallbackContext context)
+    {
+        float timeDiff = this._buoyChangeDelay - this._timeSinceLastBuoyChange;
+
+        while (timeDiff > 0.0f && this._playerControls.PlayerMap.Down.inProgress == true)
+        {
+            timeDiff -= Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        if (this._playerControls.PlayerMap.Down.inProgress == true)
+        {
+            this._setHeavy = true;
+        }
+
+        this._delayCoroutine = null;
+    }
+
+    private IEnumerator DelayLightCoroutine(InputAction.CallbackContext context)
+    {
+        float timeDiff = this._buoyChangeDelay - this._timeSinceLastBuoyChange;
+
+        while (timeDiff > 0.0f && this._playerControls.PlayerMap.Down.inProgress == false)
+        {
+            timeDiff -= Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        if (this._playerControls.PlayerMap.Down.inProgress == false)
+        {
+            this._setHeavy = false;
+        }
+
+        this._delayCoroutine = null;
+    }
+
+    private void ExecuteHeavy()
+    {
+        this._buoyantObject.ChangeToHeavyObject();
+        this._timeSinceLastBuoyChange = 0.0f;
+    }
+
+    private void ExecuteLight()
+    {
+        this._buoyantObject.ChangeToLightObject();
+        this._timeSinceLastBuoyChange = 0.0f;
     }
 }
