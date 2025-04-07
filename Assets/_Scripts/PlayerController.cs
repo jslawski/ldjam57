@@ -270,13 +270,12 @@ public class PlayerController : MonoBehaviour
     {
         this._buoyantObject.ChangeToHeavyObject();
         this._timeSinceLastBuoyChange = 0.0f;
-
-        ScoreManager.IncrementTimesDucked();
     }
 
     private void ExecuteLight()
     {
         this._buoyantObject.ChangeToLightObject();
         this._timeSinceLastBuoyChange = 0.0f;
+        ScoreManager.IncrementTimesDucked();
     }
 }

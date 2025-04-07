@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI _timerText;
     [SerializeField]
     private TextMeshProUGUI _collectiblesText;
+    [SerializeField]
+    private TextMeshProUGUI _duckedText;
 
     [SerializeField]
     private GameObject _endScreen;
@@ -72,6 +74,7 @@ public class UIManager : MonoBehaviour
     {
         this._timerText.text = UIManager.GetTimerString(ScoreManager.timeElapsed);
         this._collectiblesText.text = ScoreManager.collectiblesGrabbed.ToString();
+        this._duckedText.text = ScoreManager.totalTimesDucked.ToString();
     }    
 
     public void DisplayEndScreen()
