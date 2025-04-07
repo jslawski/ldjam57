@@ -92,4 +92,14 @@ public class UIManager : MonoBehaviour
     {
         this._endScreen.SetActive(false);
     }
+
+    public void RetryLevel()
+    {
+        SceneLoader.instance.LoadScene("MainScene");
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneLoader.instance.LoadScene("MainMenu");
+    }
 }
