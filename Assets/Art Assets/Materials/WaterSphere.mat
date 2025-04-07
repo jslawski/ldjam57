@@ -116,7 +116,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Blend: 0
+    - _Blend: 2
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
     - _CastShadows: 0
@@ -134,7 +134,7 @@ Material:
     - _Displacement_Speed: 0.48
     - _Distortion_Scale: 1
     - _Distortion_Speed: 0.2
-    - _DstBlend: 10
+    - _DstBlend: 1
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _Float: 1.5
@@ -181,7 +181,7 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Cell_Color: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepWater: {r: 0, g: 0.38408154, b: 0.4339623, a: 1}
+    - _DeepWater: {r: 0, g: 0.32611233, b: 0.37735847, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Foam_Color: {r: 0.6462264, g: 1, b: 0.9050287, a: 1}
     - _Fresnel_Color: {r: 0, g: 10.432951, b: 5.5907435, a: 1}
