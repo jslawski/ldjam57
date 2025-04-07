@@ -6324,7 +6324,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 4.42, z: 500}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -0.02, y: 0, z: 0}
 --- !u!23 &843622602
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7289,7 +7289,7 @@ PrefabInstance:
     - target: {fileID: 8590173603956744653, guid: 99e81c9642c8b29468416867272f9d2c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.11
+      value: 13.52
       objectReference: {fileID: 0}
     - target: {fileID: 8590173603956744653, guid: 99e81c9642c8b29468416867272f9d2c,
         type: 3}
@@ -7890,7 +7890,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1073310331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16793,7 +16793,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 4.42, z: 500}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.02, y: 0, z: 0}
 --- !u!23 &2012569354
 MeshRenderer:
   m_ObjectHideFlags: 0
