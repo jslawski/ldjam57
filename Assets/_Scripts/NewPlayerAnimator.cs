@@ -13,6 +13,9 @@ public class NewPlayerAnimator : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
 
+    [SerializeField]
+    AudioClip _audioClip;
+
     private void Awake()
     {
         this._animator = GetComponent<Animator>();
@@ -132,6 +135,10 @@ public class NewPlayerAnimator : MonoBehaviour
     {
         this._animator.SetBool("PlayerDeployBuoy", true);
         this._animator.SetBool("PlayerRetractBuoy", false);
+
+        //AudioChannelSettings channelSettings = new AudioChannelSettings(false, 0.8f, 0.9f, 0.1f, "SFX");
+
+        //AudioManager.instance.Play(this._audioClip, channelSettings);
     }
 
     private void SetRetractBuoyAnimation(InputAction.CallbackContext context)
